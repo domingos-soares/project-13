@@ -1,5 +1,11 @@
 fastapi
 uvicorn[standard]
+sqlalchemy
+asyncpg
+alembic
+python-dotenv
 pytest
 pytest-cov
+pytest-asyncio
 httpx
+aiosqlite
