@@ -2,7 +2,15 @@
 Person REST API with FastAPI
 
 ## Description
-A REST API server built with Python and FastAPI to manage Person objects with full CRUD operations.
+A REST API server built with Python, FastAPI, and PostgreSQL to manage Person objects with full CRUD operations.
+
+## Features
+- ✅ Full CRUD operations (Create, Read, Update, Delete)
+- ✅ PostgreSQL database with SQLAlchemy async ORM
+- ✅ Async/await support throughout
+- ✅ Docker Compose for easy PostgreSQL setup
+- ✅ Comprehensive test suite with 94% coverage
+- ✅ Auto-generated API documentation
 
 ## Installation
 
@@ -11,7 +19,36 @@ A REST API server built with Python and FastAPI to manage Person objects with fu
 pip install -r requirements.txt
 ```
 
+2. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env if you need to change database connection settings
+```
+
+## Database Setup
+
+### Option 1: Using Docker (Recommended)
+
+Start PostgreSQL using Docker Compose:
+```bash
+docker-compose up -d
+```
+
+This will start a PostgreSQL server on port 5432 with:
+- Database: `persons_db`
+- User: `postgres`
+- Password: `postgres`
+
+### Option 2: Using an existing PostgreSQL instance
+
+Update the `DATABASE_URL` in your `.env` file:
+```
+DATABASE_URL=postgresql+asyncpg://user:password@localhost:5432/your_database
+```
+
 ## Running the Server
+
+The database tables will be created automatically on startup.
 
 Start the server:
 ```bash
@@ -42,7 +79,9 @@ Run tests with HTML coverage report:
 pytest --cov=main --cov-report=html
 ```
 
-Current test coverage: **96%** (30 tests, all passing)
+Current test coverage: **94%** (30 tests, all passing)
+
+**Note**: Tests use SQLite for speed. PostgreSQL is used in production.
 
 ## API Documentation
 
