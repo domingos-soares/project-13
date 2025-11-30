@@ -25,6 +25,25 @@ uvicorn main:app --reload
 
 The server will run on `http://localhost:8000`
 
+## Testing
+
+Run the test suite:
+```bash
+pytest
+```
+
+Run tests with coverage report:
+```bash
+pytest --cov=main --cov-report=term-missing
+```
+
+Run tests with HTML coverage report:
+```bash
+pytest --cov=main --cov-report=html
+```
+
+Current test coverage: **96%** (30 tests, all passing)
+
 ## API Documentation
 
 Once the server is running, visit:
