@@ -42,6 +42,35 @@ async def root():
     return {"message": "Welcome to Person API. Visit /docs for API documentation."}
 
 
+@app.get("/health")
+async def health_check(db: AsyncSession = Depends(get_db)):
+    """
+    Health check endpoint
+    Returns the health status of the API and database
+    """
+    from datetime import datetime, timezone
+    
+    health_status = {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "service": "Person API",
+        "version": "1.0.0"
+    }
+    
+    # Check database connectivity
+    try:
+        # Simple query to test database connection
+        await db.execute(select(1))
+        health_status["database"] = "connected"
+    except Exception as e:
+        health_status["status"] = "unhealthy"
+        health_status["database"] = "disconnected"
+        health_status["error"] = str(e)
+        raise HTTPException(status_code=503, detail=health_status)
+    
+    return health_status
+
+
 @app.post("/persons", response_model=Person, status_code=201)
 async def create_person(person: Person, db: AsyncSession = Depends(get_db)):
     """Create a new person"""

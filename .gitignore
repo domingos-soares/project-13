@@ -17,6 +17,10 @@ htmlcov/
 .hypothesis/
 test.db
 
+# Database
+persons.db
+*.db-journal
+
 # IDE
 .vscode/
 .idea/

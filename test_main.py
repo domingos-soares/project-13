@@ -26,6 +26,33 @@ class TestRootEndpoint:
         }
 
 
+class TestHealthCheck:
+    """Tests for health check endpoint"""
+
+    @pytest.mark.asyncio
+    async def test_health_check_success(self, client: AsyncClient):
+        """Test health check returns healthy status"""
+        response = await client.get("/health")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "healthy"
+        assert data["database"] == "connected"
+        assert data["service"] == "Person API"
+        assert data["version"] == "1.0.0"
+        assert "timestamp" in data
+
+    @pytest.mark.asyncio
+    async def test_health_check_has_timestamp(self, client: AsyncClient):
+        """Test health check includes timestamp"""
+        response = await client.get("/health")
+        assert response.status_code == 200
+        data = response.json()
+        assert "timestamp" in data
+        # Verify timestamp is in ISO format
+        from datetime import datetime
+        datetime.fromisoformat(data["timestamp"])  # Should not raise
+
+
 class TestCreatePerson:
     """Tests for POST /persons"""
 

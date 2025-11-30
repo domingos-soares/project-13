@@ -6,9 +6,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@localhost:5432/persons_db")
+# Get DATABASE_URL from environment or default to SQLite
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./persons.db")
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+# Configure engine based on database type
+if "sqlite" in DATABASE_URL:
+    engine = create_async_engine(
+        DATABASE_URL,
+        echo=True,
+        connect_args={"check_same_thread": False}
+    )
+else:
+    # PostgreSQL or other databases
+    engine = create_async_engine(DATABASE_URL, echo=True)
+
 async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
