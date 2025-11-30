@@ -36,13 +36,21 @@ class PersonUpdate(BaseModel):
     email: Optional[str] = None
 
 
+class HealthResponse(BaseModel):
+    status: str
+    timestamp: str
+    service: str
+    version: str
+    database: str
+
+
 @app.get("/")
 async def root():
     """Root endpoint"""
     return {"message": "Welcome to Person API. Visit /docs for API documentation."}
 
 
-@app.get("/health")
+@app.get("/health", response_model=HealthResponse)
 async def health_check(db: AsyncSession = Depends(get_db)):
     """
     Health check endpoint

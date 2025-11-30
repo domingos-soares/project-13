@@ -20,6 +20,7 @@ test.db
 # Database
 persons.db
 *.db-journal
+*.sqlite.backup
 
 # IDE
 .vscode/

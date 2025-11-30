@@ -47,10 +47,10 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
     test_app = FastAPI(title="Person API", version="1.0.0")
     
     # Import and register all routes from main app
-    from main import Person, PersonUpdate, root, health_check, create_person, get_all_persons, get_person, update_person, delete_person
+    from main import Person, PersonUpdate, HealthResponse, root, health_check, create_person, get_all_persons, get_person, update_person, delete_person
     
     test_app.add_api_route("/", root, methods=["GET"])
-    test_app.add_api_route("/health", health_check, methods=["GET"])
+    test_app.add_api_route("/health", health_check, methods=["GET"], response_model=HealthResponse)
     test_app.add_api_route("/persons", create_person, methods=["POST"], response_model=Person, status_code=201)
     test_app.add_api_route("/persons", get_all_persons, methods=["GET"], response_model=list[Person])
     test_app.add_api_route("/persons/{person_id}", get_person, methods=["GET"], response_model=Person)
