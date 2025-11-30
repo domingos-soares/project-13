@@ -91,6 +91,23 @@ Once the server is running, visit:
 
 ## Available Routes
 
+### GET /health
+Health check endpoint - Returns API and database status
+```bash
+curl http://localhost:8000/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2025-11-30T14:00:00.000000+00:00",
+  "service": "Person API",
+  "version": "1.0.0",
+  "database": "connected"
+}
+```
+
 ### POST /persons
 Create a new person
 ```bash
